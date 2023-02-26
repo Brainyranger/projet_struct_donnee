@@ -36,9 +36,9 @@ int main(){
 
 	system("ls");
 	printf("\n");
-	hashFile("test1.txt","test2.txt");
+	hashFile("src.txt","dest.txt");
 	
-	char* hash = sha256file("test1.txt");
+	char* hash = sha256file("src.txt");
 	printf("%s\n", hash);
 	
 	return 0;
