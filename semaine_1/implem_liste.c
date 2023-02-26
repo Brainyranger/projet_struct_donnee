@@ -13,7 +13,7 @@ List* initList(){
 Cell* buildCell(char* ch){
     /* permet d’allouer et de retourner une cellule de la liste */
     Cell* c = malloc(sizeof(Cell));
-    c->data = ch;
+    c->data = strdup(ch);
     c->next = NULL;
     return c;
     }
@@ -85,10 +85,33 @@ List* stol(char* s){
 
 void ltof(List* L, char* path){
     /* permet d’écrire une liste dans un fichier */
+    stol(L,path);
+    FILE *f=fopen(path,"w");
+    if (f==NULL){
+        return;
+    }
+    cell *c=*L;
+    while(c!=NULL){
+        fprintf(f,"%s\n",c->data);
+        c=c->next;
+    }
+    fclose(f);
 
 }
 
 List* ftol(char* path){
     /* permet de lire une liste enregistrée dans un fichier */
-
+    FILE *f = fopen(path,"r");
+    if (f==NULL){
+        printf("Erreur lors de l'ouverture du ficher\n");
+        return NULL;
+    }
+    char ligne[256];
+    for (int i = 0;i<256;i++){
+        if (fget(ligne,256,f)!=NULL){
+            printf("%s",ligne);
+            break;
+        }
+    }
+    fclose(f);
 }
