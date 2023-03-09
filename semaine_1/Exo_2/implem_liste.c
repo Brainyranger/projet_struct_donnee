@@ -39,8 +39,8 @@ char* ltos(List* L){
     /* transforme une liste en une chaîne de caractères avec le format suivant : chaîne1|chaîne2|chaîne3| */
     char *chaine = "";
     Cell *c = *L
-    while(c->>next){
-        chaine=chaine+c->data+"|";
+    while(c->next){
+        chaine+=c->data+"|";
     }
     return chaine+c->data
 }
@@ -55,7 +55,7 @@ Cell* listGet(List* L, int i){
     }
 
     while(j!=i && c!=NULL){
-        j=j+1;
+        j++;
         c=c->next;
     }
     return c;   
@@ -101,17 +101,14 @@ void ltof(List* L, char* path){
 
 List* ftol(char* path){
     /* permet de lire une liste enregistrée dans un fichier */
-    FILE *f = fopen(path,"r");
-    if (f==NULL){
-        printf("Erreur lors de l'ouverture du ficher\n");
-        return NULL;
-    }
-    char ligne[256];
-    for (int i = 0;i<256;i++){
-        if (fget(ligne,256,f)!=NULL){
-            printf("%s",ligne);
-            break;
-        }
+    FILE *f = fopen(path , "r");
+    List *L = initList();
+    char buffer[1000];
+    while(fgets(buffer,1000,f)!=NULL){
+        Cell *c=buildCell(buffer);
+        insertFirst(L,c);
     }
     fclose(f);
+    return L;
+
 }
