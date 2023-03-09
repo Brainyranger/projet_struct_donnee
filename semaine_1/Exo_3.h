@@ -1,5 +1,5 @@
-#ifndef Exo_3
-#define Exo_3
+#ifndef Exo_3__H__
+#define Exo_3__H__
 
 
 

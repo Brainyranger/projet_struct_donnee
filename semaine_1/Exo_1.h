@@ -1,5 +1,5 @@
-#ifndef Exo_1
-#define Exo_1
+#ifndef Exo_1__H__
+#define Exo_1__H__
 
 
 

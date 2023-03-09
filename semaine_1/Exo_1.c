@@ -5,9 +5,9 @@
 
 
 int hashFile(char * source, char *dest) {
-	char cmd[100];
-	sprintf(cmd, "sha256sum %s > %s", source,dest);
-	system(cmd);
+	char buffer[100];
+	sprintf(buffer, "sha256sum %s > %s", source,dest);
+	system(buffer);
 	
 	return 0;
 }
@@ -20,15 +20,15 @@ char* sha256file(char* file){
 
     hashFile(file, fname);
     FILE* f= fopen(fname,"r");
-    char *cmd1= malloc(sizeof(char)*1000);
-    fscanf(f," %s",cmd1);
+    char *buffer1= malloc(sizeof(char)*1000);
+    fscanf(f," %s",buffer1);
 
-    char cmd2[1000];
-    sprintf(cmd2,"rm -rf %s",fname);
-    system(cmd2);
+    char buffer2[1000];
+    sprintf(buffer2,"rm -rf %s",fname);
+    system(buffer2);
 
     fclose(f);
-    return cmd1;
+    return buffer1;
 }
 
 

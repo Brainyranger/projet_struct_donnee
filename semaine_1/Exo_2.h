@@ -1,5 +1,5 @@
-#ifndef Exo_2
-#define Exo_2
+#ifndef Exo_2__H__
+#define Exo_2__H__
 
 typedef struct cell {
 char * data ;
