@@ -33,3 +33,4 @@ int hashFile(char * source, char * dest) {
 int main() {
     hashFile("file_src.txt", "file_dest.txt");
     return 0;
+}
