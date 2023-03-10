@@ -5,6 +5,8 @@
 
 
 int hashFile(char * source, char *dest) {
+    /*  ́etant donné le chemin de deux fichiers, calcule le hash du contenu du premier fichier et l’ ́ecrit dans le deuxième fichier.*/
+    
 	char buffer[100];
 	sprintf(buffer, "sha256sum %s > %s", source,dest);
 	system(buffer);
@@ -13,6 +15,8 @@ int hashFile(char * source, char *dest) {
 }
 
 char* sha256file(char* file){
+    /*renvoie une chaîne de caractères contenant le hash du fichier donné en paramètre*/
+
     static char template [] = "/tmp/tempXXXXXX" ;
     char fname[1000];
     strcpy (fname,template) ;
