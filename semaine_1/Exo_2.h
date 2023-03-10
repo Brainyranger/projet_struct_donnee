@@ -8,6 +8,7 @@ struct cell *next ;
 
 typedef Cell *List;
 
+List* initList();
 Cell* buildCell(char* ch);
 void insertFirst(List *L, Cell* C);
 char* ctos(Cell* c);

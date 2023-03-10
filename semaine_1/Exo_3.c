@@ -21,31 +21,32 @@ List* listdir(char* root_dir){
 int file_exists(char *file){
     /*retourne 1 si le fichier existe dans le répertoire courant et 0 sinon.*/
     
-    static char template [] = "/tmp/tempXXXXXX" ;
-    char fname[1000];
-    strcpy (fname,template) ;
-    int fd = mkstemp ( fname );
-    
-    char cmd1[1000];
-    sprintf(cmd1,"pwd>%s",fname);
-    system(cmd1);
-
-    char cmd2[1000];    
-    FILE* f= fopen(fname,"r");
-    fgets(cmd2,1000,f);
-
-    fclose(f);
-    sprintf(cmd1,"rm -rf %s",fname);
-
-    List *L= listdir(cmd2);
-    Cell* c = searchList(L,file);
-
-    if(c!=NULL){
-        return 1;
-    }
-    else{
-        return 0;
-    }
+    int i = 0;
+	system("pwd > chemin.txt");
+	FILE* f = fopen("chemin.txt","r");
+	if(f == NULL){
+		return i;
+	}
+	char ligne[256];
+	fgets(ligne,256,f);
+	
+	List  *L = listdir(ligne);
+	fclose(f);
+	system("rm chemin.txt");
+	
+	if(searchList(L,file) != NULL){
+		i = 1;
+	}
+	Cell *tmp = NULL;
+	Cell *c = *L;
+	while(c){
+		tmp = c->next;
+		free(c->data);
+		free(c);
+		c = tmp;
+	}
+	free(L);
+	return i;
 }
 
 void cp(char *from, char *to){
@@ -54,7 +55,7 @@ void cp(char *from, char *to){
     if (file_exists(from) == 0)
         return;
     
-    // Ouverture
+
     FILE* f = fopen(from, "r");
     if (f == NULL) return;
     FILE* t = fopen(to, "w");
@@ -111,3 +112,32 @@ void blobFile(char* file){
    
 
 
+int main(){
+    /*test Listdir*/
+    //List *L = listdir(".");
+    //char *str = ltos(L);
+    //if (str != NULL){
+       // printf("%s\n", str);
+      //  free(str);
+   // }
+    /*test file_exist*/
+    //printf("Le fichier Exo_3.c existe : %d\n", file_exists("Exo_3.c"));
+    
+    /*test cp*/
+    cp("Exo_3.c", "Exo_3.txt");
+    
+    /*test hashtofile*/
+    char* path_file_tmp = hashToPath("c822da1af674a4931200d698c1adbe22aa850cd72215d6f14fcebfa70aeb0b67");
+    printf("Chemin du hash : %s\n", path_file_tmp);
+    free(path_file_tmp);
+
+    /*test blobFile*/
+    blobFile("Exo_3.txt");
+    
+
+    //liberer_List(L);
+
+    return 0;
+
+
+}
