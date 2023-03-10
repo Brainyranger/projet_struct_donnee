@@ -85,19 +85,25 @@ List* stol(char* s){
     /* permet de transformer une chaîne de caracteres representant une liste en une liste chaınée */
 
 	List *L=initList();
-	Cell *c;
-	char *chaine1=s;
-    char *chaine2="";
-	while(*chaine1!='\0'){
-		if(*chaine1=='|'){
-            c = buildCell(chaine2);
-            insertFirst(L,c);
-            chaine2 = "";
-            }
-        *chaine2=*chaine2+*chaine1;
-		*chaine1++;	
-    }
+	char* ch = (char*)malloc(sizeof(char)*1000);
+	int i = 0;
+	int j = 0;
+	while(s[i] != '\0'){
+		if(s[i] != '|'){
+			ch[j] = s[i];
+			j++;
+		}else{
+			ch[j] = '\0';
+			insertFirst(L,buildCell(ch));
+			free(ch);
+			ch = (char*)malloc(sizeof(char)*1000);
+			j = 0;
+		}
+		i++;
+	}
+	free(ch);
 	return L;
+
 
 
 }
@@ -195,12 +201,12 @@ int main(){
 	free(ch6);
 	
 	/*test pour ltof*/
-	ltof(L2, "chaine.txt");
+	ltof(L2, "Exo_2.txt");
 	
 	/*test pour ftol*/
-	List *L3 = ftol("chaine.txt");
+	List *L3 = ftol("Exo_2.txt");
 	char *ch7 = ltos(L3);
-	printf("ftol : %s\n",ch7);
+	printf("ftol : %s",ch7);
 	free(ch7);
 
     /*libérer mes listes*/

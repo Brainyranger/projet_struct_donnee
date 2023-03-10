@@ -109,3 +109,5 @@ void blobFile(char* file){
     free(chemin);
 }
    
+
+
