@@ -83,20 +83,21 @@ Cell* searchList(List* L, char* str){
 
 List* stol(char* s){
     /* permet de transformer une chaîne de caracteres representant une liste en une liste chaınée */
-    
-    char *ch ="";
-    Cell *c;
-    List *L = initList();
 
-    for(int i=0;s[i]!='\0';i++){
-        if(*s!="|"){
-            ch = strcat(ch,*s);
-        }
-        c = buildCell(ch);
-        insertFirst(L,c);
-        ch = "";
-
+	List *L=initList();
+	Cell *c;
+	char *chaine1=s;
+    char *chaine2="";
+	while(*chaine1!='\0'){
+		if(*chaine1=='|'){
+            c = buildCell(chaine2);
+            insertFirst(L,c);
+            chaine2 = "";
+            }
+        *chaine2=*chaine2+*chaine1;
+		*chaine1++;	
     }
+	return L;
 
 
 }

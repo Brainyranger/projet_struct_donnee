@@ -1,13 +1,16 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "Exo_1.h"
+#include "Exo_2.h"
 
 List* listdir(char* root_dir){
-    DIR * dp = opendir (root_dir);
-    struct dirent * ep ;
+    /*renvoie une liste contenant le noms des fichiers et répertoires qui s’y trouvent*/
+    DIR *dp = opendir (root_dir);
+    struct dirent *ep;
     List *L =initList();
     if(dp!= NULL){
-        while (( ep = readdir (dp) ) != NULL ){
+        while ((ep=readdir(dp)) != NULL){
             Cell *c = buildCell(ep->d_name);
             insertFirst(L,c);
         }
@@ -16,7 +19,8 @@ List* listdir(char* root_dir){
 }
 
 int file_exists(char *file){
-
+    /*retourne 1 si le fichier existe dans le répertoire courant et 0 sinon.*/
+    
     static char template [] = "/tmp/tempXXXXXX" ;
     char fname[1000];
     strcpy (fname,template) ;
@@ -45,6 +49,8 @@ int file_exists(char *file){
 }
 
 void cp(char *from, char *to){
+    /*copie le contenu d’un fichier vers un autre, en faisant une lecture ligne par ligne du fichier source*/
+
     if (file_exists(from) == 0)
         return;
     
@@ -70,7 +76,8 @@ void cp(char *from, char *to){
 }
 
 char* hashToPath(char* hash){
-    //Alloc
+    /*retourne le chemin d’un fichier à partir de son hash*/
+
     char* chemin = (char*) malloc(100*sizeof(char));
     chemin[0] = hash[0];
     chemin[1] = hash[1];
@@ -85,6 +92,8 @@ char* hashToPath(char* hash){
 }
 
 void blobFile(char* file){
+    /*enregistre un instantané du fichier donn ́e en entrée*/
+
     char *hash = sha256file(file);
     char *chemin = hashToPath(hash);
     printf("Le chemin : %s\n", chemin);
