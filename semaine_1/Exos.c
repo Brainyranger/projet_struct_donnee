@@ -74,7 +74,7 @@ char* ltos(List* L){
     char *buffer = malloc(sizeof(char)*1000);
     strcpy(buffer,ctos(c));
 	c= c->next;
-    while(c){
+    while(c!=NULL){
         strcat(buffer,"|");
         strcat(buffer, ctos(c));
         c = c->next;
@@ -105,7 +105,7 @@ Cell* searchList(List* L, char* str){
 
     Cell *c = *L;
 
-    while(c){
+    while(c!=NULL){
         if(strcmp(c->data,str)==0){
             return c;
         }
@@ -181,7 +181,7 @@ void liberer_List(List* L){
     /*libère une liste*/
 	Cell* c = *L;
 	Cell* tmp;
-	while(c){
+	while(c!=NULL){
 		tmp = c;
 		c = c->next;
 		liberer_Cell(tmp);
@@ -207,91 +207,63 @@ List* listdir(char* root_dir){
 int file_exists(char *file){
     /*retourne 1 si le fichier existe dans le répertoire courant et 0 sinon.*/
     
-    int i = 0;
-	system("pwd > chemin.txt");
-	FILE* f = fopen("chemin.txt","r");
-	if(f == NULL){
-		return i;
+	List* L=listdir(".");
+	Cell *res=searchList(L,file);
+	if( res!=NULL){
+		return 1;
 	}
-	char ligne[256];
-	fgets(ligne,256,f);
-	
-	List  *L = listdir(ligne);
-	fclose(f);
-	system("rm chemin.txt");
-	
-	if(searchList(L,file) != NULL){
-		i = 1;
-	}
-	Cell *tmp = NULL;
-	Cell *c = *L;
-	while(c){
-		tmp = c->next;
-		free(c->data);
-		free(c);
-		c = tmp;
-	}
-	free(L);
-	return i;
+	return 0;
 }
 
 void cp(char *from, char *to){
     /*copie le contenu d’un fichier vers un autre, en faisant une lecture ligne par ligne du fichier source*/
-
-    if (file_exists(from) == 0)
-        return;
-    
-    FILE* f = fopen(from, "r");
-    if (f == NULL) return;
-    FILE* t = fopen(to, "w");
-    if (t == NULL){
-        fclose(f);
-        return;
-    }
-    char buffer[256];
-    char* res = fgets(buffer, 256, f);
-    while(res){
-        fprintf(t, "%s", buffer);
-        res = fgets(buffer, 256, f);
-    }
-
-    fclose(f);
-    fclose(t);
+    if(file_exists(from)==1){
+		FILE * From=fopen(from,"r");
+		FILE * To=fopen(to,"w");
+		char buffer[1000];
+		while(fgets(buffer,1000,From)!=NULL){
+			fputs(buffer,To);
+		}
+		fclose(To);
+		fclose(From);
+	}
 
 }
+
+
 
 char* hashToPath(char* hash){
     /*retourne le chemin d’un fichier à partir de son hash*/
 
-    char* chemin = (char*) malloc(100*sizeof(char));
-    chemin[0] = hash[0];
-    chemin[1] = hash[1];
-    chemin[2] = '/';
+    char* ch = (char*) malloc(100*sizeof(char));
+    ch[0] = hash[0];
+    ch[1] = hash[1];
+    ch[2] = '/';
     int i = 2;
     while(hash[i] != '\0'){
-        chemin[i+1] = hash[i];
+        ch[i+1] = hash[i];
         i++;
     }
-    chemin[i+1] = '\0'; 
-    return chemin;
+    ch[i+1] = '\0'; 
+    return ch;
 }
 
 void blobFile(char* file){
     /*enregistre un instantané du fichier donnée en entrée*/
 
     char *hash = sha256file(file);
-    char *chemin = hashToPath(hash);
-    printf("Le chemin : %s\n", chemin);
-    char dir[3] = {chemin[0], chemin[1], '\0'};
-    if (! file_exists(dir)){
-        char template[10];
-        sprintf(template, "mkdir %s", dir);
-        system(template);
+    char *ch = hashToPath(hash);
+    printf("Le chemin : %s\n", ch);
+    char dir[3] = {ch[0], ch[1], '\0'};
+    if (file_exists(dir)==0){
+        char tmp[10];
+        sprintf(tmp, "mkdir %s", dir);
+        system(tmp);
     }
-    cp(file, chemin);
+    cp(file, ch);
 
     free(hash);
-    free(chemin);
+    free(ch);
 }
    
 
@@ -299,7 +271,7 @@ void blobFile(char* file){
 
 int main(){
     /*Test pour l'exo 1*/
-    printf("Test pour l'exercice 1\n");
+    printf("Test pour l'exercice 1 :\n");
     printf("\n");
     hashFile("main.c", "file.tmp");
     printf("le hash du fichier : ");
@@ -310,7 +282,7 @@ int main(){
     printf("\n");
     printf("\n");
     /*Test pour l'exo 2*/
-    printf("Test pour l'exercice 2\n");
+    printf("Test pour l'exercice 2 :\n");
     printf("\n");
     /*création de mes chaînes de caractères*/
     char *ch1_1 = "chaine1";
@@ -386,7 +358,7 @@ int main(){
     printf("Le fichier Exos.c existe : %d\n", file_exists("Exos.c"));
     printf("\n");
     /*test pour cp*/
-    cp("Exos.c", "Exos.txt");
+    cp("file.tmp", "Exos.txt");
     
     /*test hashtofile*/
     char* path_file_tmp = hashToPath("c822da1af674a4931200d698c1adbe22aa850cd72215d6f14fcebfa70aeb0b67");
