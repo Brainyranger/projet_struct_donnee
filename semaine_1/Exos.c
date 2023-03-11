@@ -277,7 +277,7 @@ char* hashToPath(char* hash){
 }
 
 void blobFile(char* file){
-    /*enregistre un instantané du fichier donn ́e en entrée*/
+    /*enregistre un instantané du fichier donnée en entrée*/
 
     char *hash = sha256file(file);
     char *chemin = hashToPath(hash);
@@ -298,12 +298,20 @@ void blobFile(char* file){
 
 
 int main(){
-    
+    /*Test pour l'exo 1*/
+    printf("Test pour l'exercice 1\n");
+    printf("\n");
     hashFile("main.c", "file.tmp");
+    printf("le hash du fichier : ");
 	char *hash = sha256file("main.c");
 	printf("%s\n", hash);
 	free(hash);
 	
+    printf("\n");
+    printf("\n");
+    /*Test pour l'exo 2*/
+    printf("Test pour l'exercice 2\n");
+    printf("\n");
     /*création de mes chaînes de caractères*/
     char *ch1_1 = "chaine1";
     char *ch1_2 = "chaine2";
@@ -322,35 +330,35 @@ int main(){
 	char *ch2 = ctos(c1);
 	printf("ctos : %s\n",ch2);
 	free(ch2);
-	
+	printf("\n");
 	/*test pour ltos*/
 	char *ch3 = ltos(L1);
 	printf("ltos : %s\n",ch3);
 	free(ch3);
-
+    printf("\n");
 	/*test de listGet*/
 	char *ch_get = ctos(listGet(L1,1));
 	printf("listGet : %s\n",ch_get);
 	free(ch_get);
-
+    printf("\n");
 	/*test pour searchList*/
 	Cell *c4 = searchList(L1,"chaine3");
 	char *ch4 = ctos(c4);
 	printf("searchList : %s\n",ch4);
 	free(ch4);
-	
+	printf("\n");
 	/*test pour stol*/
 	char *ch5 = "table|de|hachage|";
 	List *L2 = stol(ch5);
 	char *ch6 = ltos(L2);
 	printf("stol : %s\n",ch6);
 	free(ch6);
-	
+	printf("\n");
 	/*test pour ltof*/
-	ltof(L2, "Exo_2.txt");
-	
+	ltof(L2, "Exos.txt");
+	printf("\n");
 	/*test pour ftol*/
-	List *L3 = ftol("Exo_2.txt");
+	List *L3 = ftol("Exos.txt");
 	char *ch7 = ltos(L3);
 	printf("ftol : %s",ch7);
 	free(ch7);
@@ -360,29 +368,36 @@ int main(){
 	liberer_List(L1);
 	liberer_List(L2);
 	liberer_List(L3);
-
-    /*test pour Listdir*/
+    printf("\n");
+    printf("\n");
+    /*Test pour l'exo 3*/
+    printf("Test pour l'exercice 3:\n");
+    printf("\n");
+    /*test pour listdir*/
+    printf("listdir : ");
     List *L = listdir(".");
     char *str = ltos(L);
     if (str != NULL){
         printf("%s\n", str);
         free(str);
     }
+    printf("\n");
     /*test pour file_exist*/
-    printf("Le fichier Exo_3.c existe : %d\n", file_exists("Exo_3.c"));
-    
+    printf("Le fichier Exos.c existe : %d\n", file_exists("Exos.c"));
+    printf("\n");
     /*test pour cp*/
-    cp("Exo_3.c", "Exo_3.txt");
+    cp("Exos.c", "Exos.txt");
     
     /*test hashtofile*/
     char* path_file_tmp = hashToPath("c822da1af674a4931200d698c1adbe22aa850cd72215d6f14fcebfa70aeb0b67");
     printf("Chemin du hash : %s\n", path_file_tmp);
     free(path_file_tmp);
-
+    printf("\n");
     /*test blobFile*/
-    blobFile("Exo_3.txt");
+    printf("blobfile : ");
+    blobFile("Exos.txt");
     
-
+    /*libérer la liste*/
     liberer_List(L);
 
     return 0;
