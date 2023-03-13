@@ -6,7 +6,8 @@
 #define N 3
 
 WorkFile* createWorkFile(char* name){
-        /*permet de cr ́eer un WorkFile et de l’initialiser*/
+        /* Permet de créer un WorkFile et de l’initialiser */
+
         WorkFile* wf = malloc(sizeof(WorkFile));
         if (wf == NULL){
             return NULL;
@@ -19,7 +20,8 @@ WorkFile* createWorkFile(char* name){
 
 
 char* wfts(WorkFile* wf){
-    /*permet de convertir un WorkFile en chaîne de caractères contenant les différents champs séparés par des tabulations (caract`ere ’\t’)*/
+    /* Permet de convertir un WorkFile en chaîne de caractères contenant les différents champs séparés par des tabulations (caract`ere ’\t’) */
+
     char  *ch = malloc(sizeof(char)); 
     if (ch== NULL){
         return NULL;
@@ -29,7 +31,7 @@ char* wfts(WorkFile* wf){
 }
 
 WorkFile* stwf(char* ch){
-        /*permet de convertir une chaîne de caractères représentant un WorkFile en un WorkFile*/
+        /*Permet de convertir une chaîne de caractères représentant un WorkFile en un WorkFile*/
         
         char *name = malloc(sizeof(char));
 	    char *hash = malloc(sizeof(char));
@@ -43,7 +45,7 @@ WorkFile* stwf(char* ch){
 }
 
 WorkTree* initWorkTree(){
-        /* permet d’allouer un WorkTree de taille fixée (donnée par une constante du programme) et de l’initialiser*/
+        /* Permet d’allouer un WorkTree de taille fixée (donnée par une constante du programme) et de l’initialiser */
 
         WorkTree  *wkt = malloc(sizeof(WorkTree));
         if(wkt == NULL){
@@ -57,10 +59,10 @@ WorkTree* initWorkTree(){
 
 
 int inWorkTree(WorkTree* wt, char* name){
-    /*vérifie la présence d’un fichier ou r ́epertoire dans un WorkTree. Cette fonction doit retourner la position du fichier dans le tableau s’il est présent, et -1 sinon*/
-	WorkTree* tmp=wt;
+    /* Vérifie la présence d’un fichier ou répertoire dans un WorkTree. Cette fonction doit retourner la position du fichier dans le tableau s’il est présent, et -1 sinon */
+
 	for(int i=0;i<=wt->n;i++){
-		if(strcmp(name,tmp->tab[i].name)==0){
+		if(strcmp(name,wt->tab[i].name)==0){
 			return i;
 		}
 	}
@@ -68,6 +70,8 @@ int inWorkTree(WorkTree* wt, char* name){
 }
 
 int appendWorkTree(WorkTree* wt, char* name, char* hash, int mode){
+    /* Ajoute un fichier ou répertoire au WorkTree (s’il n’existe pas déjà)*/
+
 	if (inWorkTree(wt,name)==-1){
 		WorkFile* wf=createWorkFile(name);
 		wf->hash=strdup(hash);
@@ -77,21 +81,25 @@ int appendWorkTree(WorkTree* wt, char* name, char* hash, int mode){
 			(wt->n)++;
 			return 1;
 		}
-		return -1;//deja present
+		return -1;
 	}
 	return 0;
 }
 
 char* wtts(WorkTree* wt){
-	char* c=malloc(sizeof(char));
+      /* Convertit un WorkTree en une chaîne de caractères composée des représentations des WorkFile séparées par un saut de ligne (caractère ’\n’ */
+
+	char *ch=malloc(sizeof(char));
 	for(int i=0;i<=wt->n;i++){
-		strcat(c,wfts(wt->tab+i));
-		strcat(c,"\n");
+		strcat(ch,wfts(wt->tab+i));
+		strcat(ch,"\n");
 	}
 	return c;
 }
 
 WorkTree* stwt(char* ch){
+    /* Convertit une chaîne de caractères représentant un WorkTree en un WorkTree*/
+
 	WorkTree* wt=initWorkTree();
 	char* name=malloc(sizeof(char));
 	char* hash=malloc(sizeof(char));
@@ -114,6 +122,8 @@ WorkTree* stwt(char* ch){
 }
 
 int wttf(WorkTree* wt, char* file){
+    /* Ecrit dans le fichier file la chaîne de caractères représentant un WorkTree */
+
 	FILE* f=fopen(file,"w");
 	char* truc=wtts(wt);
 	fprintf(f,"%s\n",truc);
@@ -122,6 +132,8 @@ int wttf(WorkTree* wt, char* file){
 }
 
 WorkTree* ftwt(char* file){
+    /* Construit un WorkTree à partir d’un fichier qui contient sa repr ́esentation en chaîne de caractères */
+
 	FILE* f=fopen(file,"r");
 	char* tmp;
 	char buffer[600];
@@ -170,3 +182,6 @@ int main(){
     libererWorkFile(wf1);
     libererWorkFile(wf2);
     free(s1);
+
+    return 0;
+}
