@@ -24,7 +24,7 @@ char* sha256file(char* file){
     int fd = mkstemp (fname);
 
     hashFile(file, fname);
-    FILE* f= fopen(fname,"r");
+    FILE *f= fopen(fname,"r");
     char *buffer1= malloc(sizeof(char)*1000);
     fscanf(f," %s",buffer1);
 
@@ -118,7 +118,7 @@ List* stol(char* s){
     /* permet de transformer une chaîne de caracteres representant une liste en une liste chaınée */
 
 	List *L=initList();
-	char* ch = (char*)malloc(sizeof(char)*1000);
+	char *ch = malloc(sizeof(char)*1000);
 	int i = 0;
 	int j = 0;
 	while(s[i] != '\0'){
