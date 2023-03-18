@@ -1,3 +1,2 @@
-LU2IN006 - projet structure de donnée 
+projet structure de donnée en C
 
-Binôme : Kitoko David et Grégroire Toudon
