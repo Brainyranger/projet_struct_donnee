@@ -205,15 +205,16 @@ int main(){
 
     /*Test pour appendWorkTree*/
 	printf("appendWorktree : ");
-	int res = appendWorkTree(wkt1,"File",NULL,0);
+	int res = appendWorkTree(wkt1,"file.tmp","c822da1af674a4931200d698c1adbe22aa850cd72215d6f14fcebfa70aeb0b67",777);
 	printf("%d\n",res);
 	printf("\n");
 
 	/*Test pour inWorkTree*/
 	printf("inWorktree : ");
-	int valeur = inWorkTree(wkt1,"File");
+	int valeur = inWorkTree(wkt1,"file.tmp");
 	printf("%d\n",valeur);
-    
+    printf("\n");
+
 	/*Test pour wtts*/
     printf(" wtts : ");
 	char* ch2 = wtts(wkt1);
