@@ -20,7 +20,7 @@ WorkFile* stwf(char* ch);
 WorkTree* initWorkTree();
 int inWorkTree(WorkTree* wt, char* name);
 int appendWorkTree(WorkTree* wt, char* name, char* hash, int mode);
-char* wtts(WorkTree* wt)
+char* wtts(WorkTree* wt);
 int wttf(WorkTree* wt, char* file);
 WorkTree* ftwt(char* file);
 void libererWorkFile(WorkFile* wf);

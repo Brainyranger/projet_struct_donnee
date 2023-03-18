@@ -94,7 +94,7 @@ char* wtts(WorkTree* wt){
 		strcat(ch,wfts(wt->tab+i));
 		strcat(ch,"\n");
 	}
-	return c;
+	return ch;
 }
 
 WorkTree* stwt(char* ch){
@@ -161,7 +161,7 @@ void libererWorkFile(WorkFile* wf){
 void libererWorkTree(WorkTree* wkt){
 	/*permet de libérer un workTree*/
     if(wkt != NULL){
-        for(int i=0, i<wkt->n, i++){
+        for(int i=0; i<wkt->n;i++){
             free(wkt->tab[i]);
         }
         free(wkt->tab);
@@ -182,13 +182,13 @@ int main(){
 	printf("\n");
 
     /*Test pour wfts*/
-	printf("wtfs : ")
+	printf("wtfs : ");
     char* ch1 = wfts(wkf1);
-    printf("%s\n", s1);
+    printf("%s\n", ch1);
     printf("\n");
 
 	/*Test pour stwf*/
-	printf("stwf : ")
+	printf("stwf : ");
     WorkFile* wkf2 = stwf(ch1);
     printf("%s\n", wkf2->name);
 	printf("\n");
@@ -200,11 +200,11 @@ int main(){
 	/*Test pour initWorkTree*/
 	printf("initWorktree_taille : ");
 	WorkTree* wkt1 = initWorkTree();
-	printf("s\n",wkt1->size);
+	printf("%d\n",wkt1->size);
 	printf("\n");
 
     /*Test pour appendWorkTree*/
-	printf("appendWorktree : ")
+	printf("appendWorktree : ");
 	int res = appendWorkTree(wkt1,"File",NULL,0);
 	printf("%d\n",res);
 	printf("\n");
