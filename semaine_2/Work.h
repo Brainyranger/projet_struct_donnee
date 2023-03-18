@@ -9,7 +9,7 @@ typedef struct {
 } WorkFile;
 
 typedef struct {
-    WorkFile * tab;
+    WorkFile *tab;
     int size;
     int n;
 } WorkTree;

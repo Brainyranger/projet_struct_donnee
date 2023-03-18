@@ -162,7 +162,7 @@ void libererWorkTree(WorkTree* wkt){
 	/*permet de libérer un workTree*/
     if(wkt != NULL){
         for(int i=0; i<wkt->n;i++){
-            free(wkt->tab[i]);
+            libererWorkFile(wkt->tab+i);
         }
         free(wkt->tab);
         free(wkt);
@@ -174,7 +174,7 @@ int main(){
 
 	/*Test pour l'exercice 4*/
 	printf("Exercice 4\n");
-
+    printf("\n");
 	/*Test pour createWorFile*/
 	printf("createWorkFile : ");
     WorkFile* wkf1 = createWorkFile("createWorkFile");
@@ -190,7 +190,7 @@ int main(){
 	/*Test pour stwf*/
 	printf("stwf : ");
     WorkFile* wkf2 = stwf(ch1);
-    printf("%s\n", wkf2->name);
+    printf("%s %s %d\n", wkf2->name,wkf2->hash,wkf2->mode);
 	printf("\n");
     /*libérer mes workfiles et chaine de caractère */
     libererWorkFile(wkf1);
@@ -211,7 +211,7 @@ int main(){
 
 	/*Test pour inWorkTree*/
 	printf("inWorktree : ");
-	int valeur = initWorkTree(wkt1,"File");
+	int valeur = inWorkTree(wkt1,"File");
 	printf("%d\n",valeur);
     
 	/*Test pour wtts*/
