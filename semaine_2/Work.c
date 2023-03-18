@@ -149,7 +149,7 @@ WorkTree* ftwt(char* file){
 /*ajout des fonctions utiles*/
 
 void libererWorkFile(WorkFile* wf){
-    /*permet de convertir un WorkFile en chaîne de caractères contenant les différents champs séparés par des tabulations (caract`ere ’\t’)*/
+    /*permet de libérer un workFile*/
 
     free(wf->name);
     if(wf->hash){
@@ -159,6 +159,7 @@ void libererWorkFile(WorkFile* wf){
 }
 
 void libererWorkTree(WorkTree* wkt){
+	/*permet de libérer un workTree*/
     if(wkt != NULL){
         for(int i=0, i<wkt->n, i++){
             free(wkt->tab[i]);
@@ -170,18 +171,72 @@ void libererWorkTree(WorkTree* wkt){
 
 
 int main(){
-    WorkFile* wf1 = createWorkFile("test_createWorkFile");
-    printf("%s\n", wf1->name);
-    
-    char *s1 = wfts(wf1);
+
+	/*Test pour l'exercice 4*/
+	printf("Exercice 4\n");
+
+	/*Test pour createWorFile*/
+	printf("createWorkFile : ");
+    WorkFile* wkf1 = createWorkFile("createWorkFile");
+    printf("%s\n", wkf1->name);
+	printf("\n");
+
+    /*Test pour wfts*/
+	printf("wtfs : ")
+    char* ch1 = wfts(wkf1);
     printf("%s\n", s1);
+    printf("\n");
 
-    WorkFile* wf2 = stwf(s1);
-    printf("%s\n", wf2->name);
+	/*Test pour stwf*/
+	printf("stwf : ")
+    WorkFile* wkf2 = stwf(ch1);
+    printf("%s\n", wkf2->name);
+	printf("\n");
+    /*libérer mes workfiles et chaine de caractère */
+    libererWorkFile(wkf1);
+    libererWorkFile(wkf2);
+    free(ch1);
 
-    libererWorkFile(wf1);
-    libererWorkFile(wf2);
-    free(s1);
+	/*Test pour initWorkTree*/
+	printf("initWorktree_taille : ");
+	WorkTree* wkt1 = initWorkTree();
+	printf("s\n",wkt1->size);
+	printf("\n");
+
+    /*Test pour appendWorkTree*/
+	printf("appendWorktree : ")
+	int res = appendWorkTree(wkt1,"File",NULL,0);
+	printf("%d\n",res);
+	printf("\n");
+
+	/*Test pour inWorkTree*/
+	printf("inWorktree : ");
+	int valeur = initWorkTree(wkt1,"File");
+	printf("%d\n",valeur);
+    
+	/*Test pour wtts*/
+    printf(" wtts : ");
+	char* ch2 = wtts(wkt1);
+	printf("%s\n",ch2);
+	printf("\n");
+
+	/*Test pour wttf*/
+	printf(" wttf : ");
+	int d = wttf(wkt1,"file.txt");
+	printf("%d\n",d);
+	printf("\n");
+
+	/*Test pour ftwt*/
+	printf("ftwt : ");
+	WorkTree* wkt2 = ftwt("file.txt");
+	printf("%s\n",wtts(wkt2));
+
+	/*libérer mes worktree et chaine de caractères*/
+	libererWorkTree(wkt1);
+	libererWorkTree(wkt2);
+	free(ch2);
+	 
+    
 
     return 0;
 }
