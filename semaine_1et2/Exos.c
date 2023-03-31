@@ -62,14 +62,14 @@ void insertFirst(List *L, Cell* C){
 
 char* ctos(Cell* c){
     /* retourne la chaîne de caractères qu’elle représente */
-    if(c ==NULL) return NULL;
-	char *ch = strdup(c->data);
-	return ch;
-
+    return c->data;
 }
 
 char* ltos(List* L){
     /* transforme une liste en une chaîne de caractères avec le format suivant : chaîne1|chaîne2|chaîne3| */
+    if (*L == NULL){
+        return ””;
+    }
     Cell *c = *L;
     char *buffer = malloc(sizeof(char)*1000);
     strcpy(buffer,ctos(c));
@@ -86,12 +86,11 @@ char* ltos(List* L){
 
 Cell* listGet(List* L, int i){
     /* renvoie le ième  ́elément d’une liste */
-    int j=0;
-    Cell *c=*L;
     if(L==NULL){
         return NULL;
     }
-
+    int j=0;
+    Cell *c=*L;
     while(j!=i && c!=NULL){
         j++;
         c=c->next;
@@ -104,14 +103,10 @@ Cell* searchList(List* L, char* str){
     /* recherche un  ́elément dans une liste à partir de son contenu et renvoie une référence vers lui ou NULL s’il n’est pas dans la liste */
 
     Cell *c = *L;
-
-    while(c!=NULL){
-        if(strcmp(c->data,str)==0){
-            return c;
-        }
+    while (ptr != NULL && strcmp(str, ptr->data) != 0)
         c=c->next;
     }
-    return NULL;
+    return c;
 }
 
 List* stol(char* s){
@@ -121,7 +116,7 @@ List* stol(char* s){
 	char *ch = malloc(sizeof(char)*1000);
 	int i = 0;
 	int j = 0;
-	while(s[i] != '\0'){
+	while(i < strlen(s)){
 		if(s[i] != '|'){
 			ch[j] = s[i];
 			j++;
@@ -143,17 +138,11 @@ List* stol(char* s){
 
 void ltof(List* L, char* path){
     /* permet d’écrire une liste dans un fichier */
-    FILE *f=fopen(path,"w");
-    if (f==NULL){
-        return;
+    FILE *fp = fopen(path, ”w”);
+    if (fp != NULL){
+        fputs(ltos(L), fp);
+        fclose(fp);
     }
-    Cell *c=*L;
-    while(c!=NULL){
-        fprintf(f,"%s\n",c->data);
-        c=c->next;
-    }
-    fclose(f);
-
 }
 
 List* ftol(char* path){
@@ -195,11 +184,13 @@ List* listdir(char* root_dir){
     DIR *dp = opendir (root_dir);
     struct dirent *ep;
     List *L =initList();
+    *L = NULL;
     if(dp!= NULL){
         while ((ep=readdir(dp)) != NULL){
             Cell *c = buildCell(ep->d_name);
             insertFirst(L,c);
         }
+        closedir (dp);
     }
     return L;
 }
@@ -240,7 +231,7 @@ char* hashToPath(char* hash){
     ch[1] = hash[1];
     ch[2] = '/';
     int i = 2;
-    while(hash[i] != '\0'){
+    while(i < strlen(hash)){
         ch[i+1] = hash[i];
         i++;
     }
@@ -261,9 +252,6 @@ void blobFile(char* file){
         system(tmp);
     }
     cp(file, ch);
-
-    free(hash);
-    free(ch);
 }
    
 
@@ -373,5 +361,4 @@ int main(){
     liberer_List(L);
 
     return 0;
-
 }
